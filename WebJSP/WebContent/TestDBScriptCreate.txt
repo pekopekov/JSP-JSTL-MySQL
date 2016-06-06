@@ -1,0 +1,65 @@
+CREATE SCHEMA IF NOT EXISTS `testdb` DEFAULT CHARACTER SET latin1 ;
+USE `testdb`;
+
+-- -----------------------------------------------------
+-- Table `testdb`.`t_people`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `testdb`.`t_people` ;
+
+CREATE  TABLE IF NOT EXISTS `testdb`.`t_people` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT ,
+  `FULL_NAME` VARCHAR(90) NOT NULL ,
+  `PIN` VARCHAR(10) NULL DEFAULT NULL ,
+  PRIMARY KEY (`ID`) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 18
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `testdb`.`t_addresses`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `testdb`.`t_addresses` ;
+
+CREATE  TABLE IF NOT EXISTS `testdb`.`t_addresses` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT ,
+  `ADDR_TYPE` VARCHAR(5) NOT NULL DEFAULT '' ,
+  `ADDR_INFO` VARCHAR(300) NULL DEFAULT NULL ,
+  `t_people_ID` INT(11) NULL ,
+  PRIMARY KEY (`ID`) ,
+  INDEX `fk_t_addresses_t_people` (`t_people_ID` ASC) ,
+  CONSTRAINT `fk_t_addresses_t_people`
+    FOREIGN KEY (`t_people_ID` )
+    REFERENCES `testdb`.`t_people` (`ID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `testdb`.`t_mails`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `testdb`.`t_mails` ;
+
+CREATE  TABLE IF NOT EXISTS `testdb`.`t_mails` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT ,
+  `EMAIL_TYPE` VARCHAR(5) NOT NULL DEFAULT '' ,
+  `EMAIL` VARCHAR(40) NULL DEFAULT NULL ,
+  `t_people_ID` INT(11) NULL ,
+  PRIMARY KEY (`ID`) ,
+  INDEX `fk_t_mails_t_people1` (`t_people_ID` ASC) ,
+  CONSTRAINT `fk_t_mails_t_people1`
+    FOREIGN KEY (`t_people_ID` )
+    REFERENCES `testdb`.`t_people` (`ID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
